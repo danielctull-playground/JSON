@@ -12,6 +12,25 @@ public enum JSON: Equatable {
     case null
 }
 
+// MARK: - Subscript
+
+extension JSON {
+
+    public subscript(index: Int) -> JSON {
+        switch self {
+        case .array(let array): array[index]
+        default: fatalError()
+        }
+    }
+
+    public subscript(key: String) -> JSON {
+        switch self {
+        case .dictionary(let dictionary): dictionary[key]!
+        default: fatalError()
+        }
+    }
+}
+
 // MARK: - Codable
 
 extension JSON: Codable {
