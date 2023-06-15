@@ -3,13 +3,19 @@ extension JSON {
 
     public subscript(dynamicMember query: Query) -> JSON {
         get throws {
-            switch (self, query.kind) {
-            case (.dictionary, .string(let string)):
-                return try self[string]
-            case (.dictionary, .integer(let integer)):
-                return try self[String(integer)]
-            case (.array, .integer(let integer)):
-                return try self[integer]
+            try self[query]
+        }
+    }
+
+    public subscript(index: Query) -> JSON {
+        get throws {
+            switch (self, index.kind) {
+            case let (.dictionary(dictionary), .string(key)):
+                return try value(in: dictionary, for: key)
+            case let (.dictionary(dictionary), .integer(key)):
+                return try value(in: dictionary, for: String(key))
+            case let (.array(array), .integer(index)):
+                return try value(in: array, for: index)
             case (.array, .string(let string)):
                 throw Failure("Cannot query an array with a string (\(string)).")
             case (.bool, _):
@@ -23,6 +29,22 @@ extension JSON {
             case (.null, _):
                 throw Failure("Cannot query a nil value.")
             }
+        }
+    }
+
+    private func value(in array: [JSON], for index: Int) throws -> JSON {
+        if array.indices.contains(index) {
+            return array[index]
+        } else {
+            throw Failure("Index \(index) is out of bounds.")
+        }
+    }
+
+    private func value(in dictionary: [String: JSON], for key: String) throws -> JSON {
+        if let value = dictionary[key] {
+            return value
+        } else {
+            throw Failure("Key (\(key)) does not exist.")
         }
     }
 }

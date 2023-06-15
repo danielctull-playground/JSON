@@ -13,39 +13,6 @@ public enum JSON: Equatable {
     case null
 }
 
-// MARK: - Subscript
-
-extension JSON {
-
-    public subscript(index: Int) -> JSON {
-        get throws {
-            switch self {
-            case .array(let array):
-                guard array.indices.contains(index) else {
-                    throw Failure("Index \(index) is out of bounds.")
-                }
-                return array[index]
-            default:
-                throw Failure("Not an array.")
-            }
-        }
-    }
-
-    public subscript(key: String) -> JSON {
-        get throws {
-            switch self {
-            case .dictionary(let dictionary):
-                guard let value = dictionary[key] else {
-                    throw Failure("Key (\(key)) does not exist.")
-                }
-                return value
-            default:
-                throw Failure("Not a dictionary.")
-            }
-        }
-    }
-}
-
 // MARK: - Codable
 
 extension JSON: Codable {
