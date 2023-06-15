@@ -12,9 +12,9 @@ public enum JSON: Equatable {
     case null
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension JSON: Decodable {
+extension JSON: Codable {
 
     public init(from decoder: Decoder) throws {
 
@@ -38,11 +38,6 @@ extension JSON: Decodable {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid JSON")
         }
     }
-}
-
-// MARK: - Encodable
-
-extension JSON: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
