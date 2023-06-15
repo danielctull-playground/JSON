@@ -2,7 +2,7 @@
 import JSON
 import XCTest
 
-final class JSONSubscriptTests: XCTestCase {
+final class SubscriptTests: XCTestCase {
 
     func testIndex() throws {
         let array = JSON.array([

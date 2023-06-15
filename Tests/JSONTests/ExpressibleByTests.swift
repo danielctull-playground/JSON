@@ -2,7 +2,7 @@
 import JSON
 import XCTest
 
-final class JSONExpressibleTests: XCTestCase {
+final class ExpressibleByTests: XCTestCase {
 
     func testExpressibleByArrayLiteral() {
         Assert {

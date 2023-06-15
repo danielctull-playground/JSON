@@ -2,7 +2,7 @@
 import JSON
 import XCTest
 
-final class JSONEncodingTests: XCTestCase {
+final class EncodableTests: XCTestCase {
 
     func testArray() throws {
         try Assert {

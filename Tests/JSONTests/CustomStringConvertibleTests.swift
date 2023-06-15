@@ -2,7 +2,7 @@
 import JSON
 import XCTest
 
-final class JSONDescriptionTests: XCTestCase {
+final class CustomStringConvertibleTests: XCTestCase {
 
     func testArray() {
         Assert {
