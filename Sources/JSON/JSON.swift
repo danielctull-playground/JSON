@@ -17,16 +17,30 @@ public enum JSON: Equatable {
 extension JSON {
 
     public subscript(index: Int) -> JSON {
-        switch self {
-        case .array(let array): array[index]
-        default: fatalError()
+        get throws {
+            switch self {
+            case .array(let array):
+                guard array.indices.contains(index) else {
+                    throw Failure("Index \(index) is out of bounds.")
+                }
+                return array[index]
+            default:
+                throw Failure("Not an array.")
+            }
         }
     }
 
     public subscript(key: String) -> JSON {
-        switch self {
-        case .dictionary(let dictionary): dictionary[key]!
-        default: fatalError()
+        get throws {
+            switch self {
+            case .dictionary(let dictionary):
+                guard let value = dictionary[key] else {
+                    throw Failure("Key (\(key)) does not exist.")
+                }
+                return value
+            default:
+                throw Failure("Not a dictionary.")
+            }
         }
     }
 }
@@ -120,5 +134,17 @@ extension JSON: ExpressibleByStringLiteral {
 
     public init(stringLiteral value: String) {
         self = .string(value)
+    }
+}
+
+// MARK: - Failure
+
+extension JSON {
+
+    struct Failure: Error, CustomStringConvertible {
+        let description: String
+        init(_ description: String) {
+            self.description = description
+        }
     }
 }
