@@ -86,6 +86,23 @@ extension JSON: Codable {
     }
 }
 
+// MARK: - CustomStringConvertible
+
+extension JSON: CustomStringConvertible {
+
+    public var description: String {
+        switch self {
+        case .array(let value): value.description
+        case .dictionary(let value): value.description
+        case .bool(let value): value.description
+        case .string(let value): value.description
+        case .integer(let value): value.description
+        case .double(let value): value.description
+        case .null: "nil"
+        }
+    }
+}
+
 // MARK: - ExpressibleBy…
 
 extension JSON: ExpressibleByArrayLiteral {
