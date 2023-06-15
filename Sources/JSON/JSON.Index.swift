@@ -1,13 +1,13 @@
 
 extension JSON {
 
-    public subscript(dynamicMember query: Query) -> JSON {
+    public subscript(dynamicMember query: Index) -> JSON {
         get throws {
             try self[query]
         }
     }
 
-    public subscript(index: Query) -> JSON {
+    public subscript(index: Index) -> JSON {
         get throws {
             switch (self, index.kind) {
             case let (.dictionary(dictionary), .string(key)):
@@ -51,12 +51,12 @@ extension JSON {
 
 extension JSON {
 
-    public struct Query {
+    public struct Index {
         fileprivate let kind: Kind
     }
 }
 
-extension JSON.Query {
+extension JSON.Index {
 
     fileprivate enum Kind {
         case integer(Int)
@@ -76,14 +76,14 @@ extension JSON.Query {
     }
 }
 
-extension JSON.Query: ExpressibleByStringLiteral {
+extension JSON.Index: ExpressibleByStringLiteral {
 
     public init(stringLiteral string: String) {
         self.init(string)
     }
 }
 
-extension JSON.Query: ExpressibleByIntegerLiteral {
+extension JSON.Index: ExpressibleByIntegerLiteral {
 
     public init(integerLiteral integer: Int) {
         self.init(integer)

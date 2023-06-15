@@ -2,7 +2,7 @@
 import JSON
 import XCTest
 
-final class JSONQueryTests: XCTestCase {
+final class DynamicMemberLookupTests: XCTestCase {
 
     func testArray() throws {
 
