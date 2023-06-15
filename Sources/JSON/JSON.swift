@@ -1,2 +1,59 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+
+/// Represents some decoded JSON.
+///
+/// Allows any JSON representable type to exist.
+public enum JSON: Equatable {
+    case array([JSON])
+    case dictionary([String: JSON])
+    case bool(Bool)
+    case string(String)
+    case integer(Int)
+    case double(Double)
+    case null
+}
+
+// MARK: - Decodable
+
+extension JSON: Decodable {
+
+    public init(from decoder: Decoder) throws {
+
+        let container = try decoder.singleValueContainer()
+
+        if let integer = try? container.decode(Int.self) {
+            self = .integer(integer)
+        } else if let string = try? container.decode(String.self) {
+            self = .string(string)
+        } else if let double = try? container.decode(Double.self) {
+            self = .double(double)
+        } else if let bool = try? container.decode(Bool.self) {
+            self = .bool(bool)
+        } else if let array = try? container.decode([JSON].self) {
+            self = .array(array)
+        } else if let dictionary = try? container.decode([String: JSON].self) {
+            self = .dictionary(dictionary)
+        } else if container.decodeNil() {
+            self = .null
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid JSON")
+        }
+    }
+}
+
+// MARK: - Encodable
+
+extension JSON: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .array(let array): try container.encode(array)
+        case .dictionary(let dictionary): try container.encode(dictionary)
+        case .bool(let bool): try container.encode(bool)
+        case .string(let string): try container.encode(string)
+        case .integer(let int): try container.encode(int)
+        case .double(let double): try container.encode(double)
+        case .null: try container.encodeNil()
+        }
+    }
+}
