@@ -2,6 +2,7 @@
 /// Represents some decoded JSON.
 ///
 /// Allows any JSON representable type to exist.
+@dynamicMemberLookup
 public enum JSON: Equatable {
     case array([JSON])
     case dictionary([String: JSON])
