@@ -5,7 +5,7 @@ import XCTest
 final class Demo: XCTestCase {
     
     func test() throws {
-        let json = JSON.dictionary([
+        let json = JSON([
             "string" : "Some string",
             "array" : [
                 "An array of things",

@@ -1,7 +1,10 @@
 
+import JSONMacros
+
 /// Represents some decoded JSON.
 ///
 /// Allows any JSON representable type to exist.
+@CaseInit
 @dynamicMemberLookup
 public enum JSON: Equatable {
     case array([JSON])
